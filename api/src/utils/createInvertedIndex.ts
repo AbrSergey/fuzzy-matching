@@ -1,3 +1,14 @@
+type CompanyType = {
+  id: number;
+  name: string;
+  logoUrl: string;
+  coins: string[];
+};
+
+type InvertedIndexType = {
+  [key: string]: number[];
+};
+
 function removeDuplicates(array: string[]): string[] {
   return Array.from(new Set(array));
 }
@@ -10,9 +21,7 @@ function splitTextToTokens(text: string): string[] {
     .filter((token) => token.length > 1);
 }
 
-export default function createdInvertedIndex(companyList: { name: string }[]): {
-  [key: string]: number[];
-} {
+export default function createdInvertedIndex(companyList: CompanyType[]): InvertedIndexType {
   const invertedIndex: { [key: string]: number[] } = {};
 
   companyList.forEach((company, index) => {
