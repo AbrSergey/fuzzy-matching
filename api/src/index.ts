@@ -1,11 +1,12 @@
 import cors from 'cors';
 import express from 'express';
 import { faker } from '@faker-js/faker';
+import * as levenshtein from 'fastest-levenshtein';
 
 import companies from './data/companies.json';
 import { createdInvertedIndex, splitTextToTokens } from './utils/createInvertedIndex';
 import { InvertedIndexType } from './utils/invertedIndex.type';
-import { MIN_TOKEN_LENGTH } from './utils/invertedIndex.constants';
+import { LEVENSHTEIN_THRESHOLD, MIN_TOKEN_LENGTH } from './constants';
 
 const COINS = ['btc', 'eth', 'ada', 'bnb', 'trx', 'doge', 'dot', 'eos'];
 let INVERTED_INDEX_CACHE: InvertedIndexType;
@@ -24,12 +25,14 @@ app.get('/companies', (req, res) => {
   const tokens = splitTextToTokens(searchQuery);
   const matchingCompanyIndexes: Set<number> = new Set();
 
-  tokens.forEach((token) => {
-    if (INVERTED_INDEX_CACHE[token]) {
-      INVERTED_INDEX_CACHE[token].forEach((index) => {
-        matchingCompanyIndexes.add(index);
-      });
-    }
+  tokens.forEach((queryToken) => {
+    Object.keys(INVERTED_INDEX_CACHE).forEach((invertedIndexToken) => {
+      if (levenshtein.distance(queryToken, invertedIndexToken) <= LEVENSHTEIN_THRESHOLD) {
+        INVERTED_INDEX_CACHE[invertedIndexToken].forEach((invertedIndexValue) => {
+          matchingCompanyIndexes.add(invertedIndexValue);
+        });
+      }
+    });
   });
 
   const filteredCompanies = Array.from(matchingCompanyIndexes).map((index) => companies[index]);
