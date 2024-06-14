@@ -1,3 +1,6 @@
+import { MIN_TOKEN_LENGTH } from './invertedIndex.constants';
+import { InvertedIndexType } from './invertedIndex.type';
+
 type CompanyType = {
   id: number;
   name: string;
@@ -5,27 +8,25 @@ type CompanyType = {
   coins: string[];
 };
 
-type InvertedIndexType = {
-  [key: string]: number[];
-};
-
 function removeDuplicates(array: string[]): string[] {
   return Array.from(new Set(array));
 }
 
-function splitTextToTokens(text: string): string[] {
-  return text
+export function splitTextToTokens(text: string): string[] {
+  const tokens = text
     .replace(/[^\w\s]/g, '')
     .toLowerCase()
     .split(' ')
-    .filter((token) => token.length > 1);
+    .filter((token) => token.length >= MIN_TOKEN_LENGTH);
+
+  return removeDuplicates(tokens);
 }
 
-export default function createdInvertedIndex(companyList: CompanyType[]): InvertedIndexType {
+export function createdInvertedIndex(companyList: CompanyType[]): InvertedIndexType {
   const invertedIndex: { [key: string]: number[] } = {};
 
   companyList.forEach((company, index) => {
-    const tokens = removeDuplicates(splitTextToTokens(company.name));
+    const tokens = splitTextToTokens(company.name);
 
     tokens.forEach((token) => {
       if (invertedIndex[token] !== undefined) {
