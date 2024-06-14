@@ -1,4 +1,5 @@
-import { MIN_TOKEN_LENGTH } from './invertedIndex.constants';
+import { MIN_TOKEN_LENGTH } from '../constants';
+
 import { InvertedIndexType } from './invertedIndex.type';
 
 type CompanyType = {
