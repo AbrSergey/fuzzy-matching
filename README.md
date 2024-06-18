@@ -54,7 +54,7 @@ Fuzzy matching search has different solutions:
 
   _Advantages:_ can be used in embedded database
 
-  _Disadvantages:_ complexity, `O(n\*m)`
+  _Disadvantages:_ complexity, `O(n x m)`
 
 - use AI models
 
