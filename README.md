@@ -1,16 +1,18 @@
 # Fuzzy Matching Coding Challenge
 
-This is a fuzzy matching coding challenge :).
+Welcome to the Fuzzy Matching Coding Challenge! This application demonstrates the implementation of fuzzy matching for filtering items by their names.
 
 **Description:**
 
-- this application show list of items with names.
+This application showcases a list of items and provides a search input field for filtering these items. It is designed to return meaningful results to the user even in cases of typos in the search query (e.g., “gruop” instead of “group”).
 
-- user can use `input` field for filtering items.
+**Features:**
 
-- this application can return meaningful results to the user even when there are typos in the search query (e.g. “gruop” instead of “group”).
+- Display a list of items with their names
+ 
+- Provide an input field for filtering items
 
-- this task took about two hours of work
+- Implement fuzzy matching to handle typos in the search query.
 
 **Stack:** React, Node.js, TypeScript.
 
